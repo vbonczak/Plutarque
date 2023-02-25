@@ -59,7 +59,9 @@ namespace Plutarque
                 {
                     WriteChar(c);
                 }
+                Refresh();
             }
+
         }
         /// <summary>
         /// Gestion du presse-papiers interne.

@@ -62,14 +62,17 @@ namespace Plutarque
             Rectangle blockRectL = new Rectangle(leftCurX, r.Y, blockW, offsetZoneSz.Height);
             Rectangle blockRectR = new Rectangle(rightCurX, r.Y, blockW, offsetZoneSz.Height);
             long p;//Position actuelle
-            //                  v vvvvvvvvvv  éviter d'avoir une ligne partiellement visible 
+                   //                  v vvvvvvvvvv  éviter d'avoir une ligne partiellement visible 
+
+            GetSelectionRange(out long sBegin, out long sEnd);
+
             while (blockRectL.Y + lineHeight <= r.Bottom && dataStream.Position < dataStream.Length)
             {
                 p = dataStream.Position;
                 g.DrawString(Utils.ToBaseString(p, offsetBase).PadLeft(stringW, '0'), Font, offsetForeBr, offsetCurX, blockRectL.Y);  //offset
                 int l = dataStream.Read(buf, 0, lineLength);
-                DrawLine(g, BaseLeft, buf, l, blockRectL, p, textZoneWidth);//Partie gauche
-                DrawLine(g, BaseRight, buf, l, blockRectR, p, textZoneWidth);//Partie droite
+                DrawLine(g, BaseLeft, buf, l, blockRectL, p, textZoneWidth, sBegin, sEnd);//Partie gauche
+                DrawLine(g, BaseRight, buf, l, blockRectR, p, textZoneWidth, sBegin, sEnd);//Partie droite
                 blockRectL.Y += offsetZoneSz.Height;
                 blockRectR.Y += offsetZoneSz.Height;
             }
@@ -108,9 +111,9 @@ namespace Plutarque
                 DrawInputingOffset(g, new Rectangle(offsetZone.X, offsetZone.Y, offsetZone.Width, lineHeight), charW, stringW);
             }
 
-           /* g.DrawString(firstOffset.ToString(), Font, Brushes.Lime, 15, 15);
-            g.DrawString(offsetMouse.ToString(), Font, Brushes.Lime, 15, 32);
-            g.DrawString(lastOffset.ToString(), Font, Brushes.Orange, 15, 48);*/
+            /* g.DrawString(firstOffset.ToString(), Font, Brushes.Lime, 15, 15);
+             g.DrawString(offsetMouse.ToString(), Font, Brushes.Lime, 15, 32);
+             g.DrawString(lastOffset.ToString(), Font, Brushes.Orange, 15, 48);*/
             RenderReperes(g);
         }
 
@@ -141,7 +144,7 @@ namespace Plutarque
         }
 
         /// <summary>
-        /// Affiche les chiffres du décalage en cours d'entrée.
+        /// Affiche les chiffres du décalage en cours d'entrée, dans le cas où on saisit directement le décalage à gauche.
         /// </summary>
         /// <param name="g"></param>
         /// <param name="blockoffsetZone"></param>
@@ -196,10 +199,10 @@ namespace Plutarque
         /// <param name="rect"></param>
         /// <param name="lineOffset">Position de départ</param>
         /// <param name="maxWidth">Limite graphique en largeur</param>
-        protected void DrawLine(Graphics g, int bs, byte[] line, int len, Rectangle rect, long lineOffset, int maxWidth)
+        protected void DrawLine(Graphics g, int bs, byte[] line, int len, Rectangle rect, long lineOffset, int maxWidth, long sBegin, long sEnd)
         {
-            int status;
-            GetSelectionRange(out long sBegin, out long sEnd); //sortir de cette fonction ??
+            int status;//ligne entière ou pas
+
             if (selectionLength == 0)
                 status = 0;
             else
@@ -243,7 +246,6 @@ namespace Plutarque
                     for (long i = 0; i < len; i++)
                     {
                         DrawBlockValue(g, rect, line[i], bs, foreBrSel);
-
                         rect.X += rect.Width;
                     }
                     break;
