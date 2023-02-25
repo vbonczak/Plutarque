@@ -69,7 +69,9 @@ namespace Plutarque
             while (blockRectL.Y + lineHeight <= r.Bottom && dataStream.Position < dataStream.Length)
             {
                 p = dataStream.Position;
-                g.DrawString(Utils.ToBaseString(p, offsetBase).PadLeft(stringW, '0'), Font, offsetForeBr, offsetCurX, blockRectL.Y);  //offset
+
+                DrawOffset(g, stringW, offsetCurX, blockRectL, p, sBegin);//offset
+
                 int l = dataStream.Read(buf, 0, lineLength);
                 DrawLine(g, BaseLeft, buf, l, blockRectL, p, textZoneWidth, sBegin, sEnd);//Partie gauche
                 DrawLine(g, BaseRight, buf, l, blockRectR, p, textZoneWidth, sBegin, sEnd);//Partie droite
@@ -111,10 +113,37 @@ namespace Plutarque
                 DrawInputingOffset(g, new Rectangle(offsetZone.X, offsetZone.Y, offsetZone.Width, lineHeight), charW, stringW);
             }
 
-            /* g.DrawString(firstOffset.ToString(), Font, Brushes.Lime, 15, 15);
+            /*///DEBUG
+             g.DrawString(firstOffset.ToString(), Font, Brushes.Lime, 15, 15);
              g.DrawString(offsetMouse.ToString(), Font, Brushes.Lime, 15, 32);
-             g.DrawString(lastOffset.ToString(), Font, Brushes.Orange, 15, 48);*/
+             g.DrawString(lastOffset.ToString(), Font, Brushes.Orange, 15, 48);//*/
             RenderReperes(g);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="g"></param>
+        /// <param name="stringW"></param>
+        /// <param name="offsetCurX"></param>
+        /// <param name="blockRectL"></param>
+        /// <param name="p"></param>
+        /// <param name="sBegin"></param>
+        private void DrawOffset(Graphics g, int stringW, int offsetCurX, Rectangle blockRectL, long p, long sBegin)
+        {
+            long number = p;
+            Brush br = offsetForeBr;
+            if (sBegin >= p && sBegin < p + lineLength)
+            {
+                if (sBegin > p)
+                    br = offsetFocusForeBr;
+                else
+                    br = offsetCurrentLineForeBr;
+                //dessin de la position actuelle
+                number = sBegin;
+            }
+
+            g.DrawString(Utils.ToBaseString(number, offsetBase).PadLeft(stringW, '0'), Font, br, offsetCurX, blockRectL.Y);
         }
 
         /// <summary>
@@ -323,6 +352,10 @@ namespace Plutarque
         /// </summary>
         public List<Repere> Reperes { get => reperes; }
 
+        /// <summary>
+        /// Rendu des annotation (Repères) visibles dans le contrôle actuellement.
+        /// </summary>
+        /// <param name="g"></param>
         public virtual void RenderReperes(Graphics g)
         {
             renderedReperesG.Clear();

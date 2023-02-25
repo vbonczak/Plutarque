@@ -89,6 +89,8 @@ namespace Plutarque
         private Brush foreBr;
         private Brush foreBrSel;
         private Brush offsetForeBr;
+        private Brush offsetFocusForeBr;
+        private Brush offsetCurrentLineForeBr;
         private Brush offsetBackBr;
         private Brush middleMarginBr;
         private Brush backBrSel;
@@ -96,6 +98,8 @@ namespace Plutarque
         private Color selectionColor;
         private Color selectionBackColor;
         private Color offsetColor;
+        private Color offsetCurrentLineColor;
+        private Color offsetFocusColor;
         private Color offsetBackColor;
         private Color middleMarginColor;
 
@@ -314,6 +318,32 @@ namespace Plutarque
         }
 
         /// <summary>
+        /// Couleur de police de la colonne de décalage lorsque la position actuelle est indiquée.
+        /// </summary>
+        [DefaultValue(typeof(Color), "Orange")]
+        public Color OffsetFocusColor
+        {
+            get => offsetFocusColor; set
+            {
+                offsetFocusForeBr = new SolidBrush(value);
+                offsetFocusColor = value;
+            }
+        }
+
+        /// <summary>
+        /// Couleur de police de la colonne de décalage pour la ligne en cours d'édition.
+        /// </summary>
+        [DefaultValue(typeof(Color), "Violet")]
+        public Color OffsetCurrentLineColor
+        {
+            get => offsetCurrentLineColor; set
+            {
+                offsetCurrentLineForeBr = new SolidBrush(value);
+                offsetCurrentLineColor = value;
+            }
+        }
+
+        /// <summary>
         /// Couleur de fond de la colonne de décalage.
         /// </summary>
         [DefaultValue(typeof(Color), "Control"), Description("Couleur de fond de la colonne de décalage")]
@@ -325,6 +355,7 @@ namespace Plutarque
                 offsetBackColor = value;
             }
         }
+
 
         /// <summary>
         /// Spécifie la convention à utiliser lorsque l'utilisateur entre un retour à la ligne.

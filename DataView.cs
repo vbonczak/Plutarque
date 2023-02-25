@@ -42,6 +42,9 @@ namespace Plutarque
             SelectionColor = SystemColors.HighlightText;
             OffsetBackColor = SystemColors.Control;
             OffsetColor = Color.DarkViolet;
+            OffsetCurrentLineColor = Color.Violet;
+
+            OffsetFocusColor = Color.Orange;
             BackColor = SystemColors.Window;
             ForeColor = SystemColors.WindowText;
             MiddleMarginColor = SystemColors.Control;
