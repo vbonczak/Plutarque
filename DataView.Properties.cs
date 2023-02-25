@@ -28,19 +28,48 @@ namespace Plutarque
 
         protected int innerMargin = 5; //Marge (totale) dans un bloc en pixels
 
-        protected long lastOffset;//Dernière position affichée dans le contrôle (incluse)
-        protected long firstOffset;//première (incluse)
+        /// <summary>
+        /// Dernière position affichée dans le contrôle (incluse)
+        /// </summary>
+        protected long lastOffset;
 
-        private int scrollLines = 3; //lignes défilés avec la molette (et unité de défilement de la barre)
+        /// <summary>
+        /// première position affichée (incluse)
+        /// </summary>
+        protected long firstOffset;
+
+
+        /// <summary>
+        /// lignes défilés avec la molette (et unité de défilement de la barre)
+        /// </summary>
+        private int scrollLines = 3;
 
         private long selectionStart;
 
-        protected byte curInputingByte = 0; //nombre en cours
-        protected int selectionSubCaret = 0; //Position actuelle dans le nombre en cours (entre 0 et base-1)
-        private int selectionLength;//peut être négative en cas de sélection 'à l'envers'
+        /// <summary>
+        /// nombre en cours d'entrée
+        /// </summary>
+        protected byte curInputingByte = 0;
 
+        /// <summary>
+        /// Position actuelle dans le nombre en cours (entre 0 et base-1)
+        /// </summary>
+        protected int selectionSubCaret = 0;
+
+        /// <summary>
+        /// peut être négative en cas de sélection 'à l'envers'
+        /// </summary>
+        private int selectionLength;
+
+        /// <summary>
+        /// Base de numération des positions de décalage dans la marge de gauche.
+        /// </summary>
         private int offsetBase;
-        protected long curInputingOffset = 0; //décalage en cours de saisie
+
+        /// <summary>
+        /// décalage en cours de saisie
+        /// </summary>
+        protected long curInputingOffset = 0; 
 
 
         private bool ro;//lecture seule ou non
