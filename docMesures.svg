@@ -24,9 +24,9 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
-     inkscape:zoom="0.76956667"
-     inkscape:cx="613.98189"
-     inkscape:cy="408.67154"
+     inkscape:zoom="1.3899729"
+     inkscape:cx="538.49969"
+     inkscape:cy="503.96664"
      inkscape:window-width="1920"
      inkscape:window-height="1051"
      inkscape:window-x="-9"
@@ -867,4 +867,21 @@
          id="tspan5-4"
          x="637.29907"
          y="389.19434"
-         style="stroke-width:3.45615">caretPen</tspan></text></g></svg>
+         style="stroke-width:3.45615">caretPen</tspan></text><path
+       style="fill:#d5ffdb;fill-opacity:0.432432;stroke:#ff6200;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+       d="m 59.276573,129.25015 v 76.64044"
+       id="path5" /><path
+       style="fill:none;fill-opacity:0.432432;stroke:#ff6200;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+       d="m 56.525803,124.8766 v 8.79963 l 2.727372,0"
+       id="path7"
+       sodipodi:nodetypes="cc" /><text
+       xml:space="preserve"
+       style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.3333px;line-height:1.25;font-family:'Univers 55';-inkscape-font-specification:'Univers 55, ';font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-variant-east-asian:normal;font-feature-settings:normal;font-variation-settings:normal;text-indent:0;text-align:center;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:middle;white-space:normal;shape-padding:0;shape-margin:0;inline-size:0;opacity:1;vector-effect:none;fill:#000000;fill-opacity:1;stroke-width:2.51339;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;-inkscape-stroke:none;stop-color:#000000;stop-opacity:1"
+       x="648.66937"
+       y="713.86224"
+       id="text7"
+       transform="matrix(0.26458333,0,0,0.26458333,-90.607779,16.38067)"><tspan
+         sodipodi:role="line"
+         id="tspan7"
+         x="648.66937"
+         y="713.86224">Width = Width0 * zoom</tspan></text></g></svg>

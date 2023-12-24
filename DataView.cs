@@ -245,14 +245,27 @@ namespace Plutarque
 
         /// <summary>
         /// Permet de garder le même décalage avant et après le re-rendu.
+        /// Attention nécessite deux rendus parfois.
         /// </summary>
         protected void RefreshConsistently()
         {
-            if (IsOffsetVisible(curInputingOffset))
+            if (IsOffsetVisible(selectionStart))
             {
-                //visible 
+                //visible, on va le garder à l'écran
+
+                Refresh();
+                ScrollToCaret(); //après car nouvelles cotes.
             }
-            Refresh();
+            else
+            {
+                long curDébut = firstOffset;
+
+                Refresh();
+
+                firstLine = curDébut / lineLength;
+
+                Refresh();
+            }
         }
 
         private void View_Main_Resize(object sender, EventArgs e)

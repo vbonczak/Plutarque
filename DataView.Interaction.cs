@@ -429,8 +429,7 @@ namespace Plutarque
         {
             if (ModifierKeys == Keys.Control)
             {
-                //si offset visible, on garde offset visible
-                //sinon, on garde le premier offset identique
+       
 
                 //Zoom
                 if (e.Delta < 0)
@@ -445,8 +444,8 @@ namespace Plutarque
                 }
                 subCaretPen.Width = Max(1.0f, zoom);
                 caretPen.Width = Max(1.0f, zoom);
-                Refresh();
-                ScrollToCaret();
+
+                RefreshConsistently();
             }
             else
             {
