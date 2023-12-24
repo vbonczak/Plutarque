@@ -263,7 +263,7 @@ namespace Plutarque
                 Refresh();
 
                 firstLine = curDébut / lineLength;
-
+                SetScrollFromLine(firstLine);
                 Refresh();
             }
         }
