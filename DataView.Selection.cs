@@ -35,11 +35,12 @@ namespace Plutarque
         /// </summary>
         /// <param name="offset"></param>
         /// <returns></returns>
-        protected bool IsIndexSelected(long offset)
+        protected bool IsOffsetSelected(long offset)
         {
             GetSelectionRange(out long b, out long e);
             return offset >= b && offset <= e;
         }
+         
 
         /// <summary>
         /// Inscrit à l'emplacement sélectionné les données contenues dans le presse-papier

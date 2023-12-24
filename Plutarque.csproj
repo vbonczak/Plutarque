@@ -8,10 +8,11 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>Plutarque</RootNamespace>
     <AssemblyName>plutrque</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -112,6 +113,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="DataView.DataStructures.cs">
       <SubType>UserControl</SubType>
@@ -137,6 +139,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy /Y $(ProjectDir)Plaux.ttf $(ProjectDir)$(OutDir)Plaux.ttf
-if $(ConfigurationName)==Release COPY /Y "$(TargetPath)" /B C:\SyncData\$(TargetFileName)</PostBuildEvent>
+if $(ConfigurationName)==Release COPY /Y "$(TargetPath)" /B C:\SyncData\$(TargetFileName)
+rem if $(ConfigurationName)==Release COPY /Y "$(TargetDir)/*.dll" /B C:\SyncData\</PostBuildEvent>
   </PropertyGroup>
 </Project>

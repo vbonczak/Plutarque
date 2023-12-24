@@ -124,7 +124,7 @@ namespace Plutarque
             Refresh();
         }
 
-        private void DataView_KeyPress(object sender, KeyPressEventArgs e)
+        private void View_Sub_KeyPress(object sender, KeyPressEventArgs e)
         {
             selectionLength = 0;
 
@@ -200,13 +200,13 @@ namespace Plutarque
             Refresh();
         }
 
-        private void DataView_KeyUp(object sender, KeyEventArgs e)
+        private void View_Sub_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.ControlKey)
                 Tip.Active = true;//rétablir l'infobulle
         }
 
-        private void DataView_KeyDown(object sender, KeyEventArgs e)
+        private void View_Sub_KeyDown(object sender, KeyEventArgs e)
         {
             /** 
              * Algo de la saisie :
@@ -238,7 +238,7 @@ namespace Plutarque
             else if (e.KeyCode == Keys.Up)      //Défilement haut
             {
                 Navigate(shiftPressed, -lineLength);
-            }   
+            }
             else if (e.KeyCode == Keys.Down)    //Défilement bas
             {
                 Navigate(shiftPressed, lineLength);
@@ -314,7 +314,7 @@ namespace Plutarque
             }
         }
 
-        private void DataView_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        private void View_Sub_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             if (e.Control)
             {
@@ -376,7 +376,7 @@ namespace Plutarque
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void mainView_MouseMove(object sender, MouseEventArgs e)
+        private void View_Main_MouseMove(object sender, MouseEventArgs e)
         {
             offsetMouse = GetOffsetFromPoint(e.Location);
             if (offsetZone.Contains(e.Location))
@@ -415,7 +415,7 @@ namespace Plutarque
             Refresh();
         }
 
-        private void mainView_MouseLeave(object sender, EventArgs e)
+        private void View_Main_MouseLeave(object sender, EventArgs e)
         {
             Cursor = Cursors.Default;
         }
@@ -425,21 +425,28 @@ namespace Plutarque
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void DataView_MouseWheel(object sender, MouseEventArgs e)
+        private void View_Sub_MouseWheel(object sender, MouseEventArgs e)
         {
             if (ModifierKeys == Keys.Control)
             {
+                //si offset visible, on garde offset visible
+                //sinon, on garde le premier offset identique
+
                 //Zoom
                 if (e.Delta < 0)
                 {
                     //arrière
-                    zoom = Max(0.1f, zoom - 0.1f);
+                    zoom = Max(0.5f, zoom - 0.1f);
                 }
                 else if (e.Delta > 0)
                 {
                     //avant
                     zoom = Min(10f, zoom + 0.1f);
                 }
+                subCaretPen.Width = Max(1.0f, zoom);
+                caretPen.Width = Max(1.0f, zoom);
+                Refresh();
+                ScrollToCaret();
             }
             else
             {
@@ -464,12 +471,12 @@ namespace Plutarque
                     firstLine = Max(0, Min(firstLine - 3 * Sign(e.Delta), GetNbOflines()));
                     SetScrollFromLine(firstLine);
                 }
-
+                Refresh();
             }
-            Refresh();
+
         }
 
-        private void mainView_MouseDown(object sender, MouseEventArgs e)
+        private void View_Main_MouseDown(object sender, MouseEventArgs e)
         {
             long hoverPos = GetOffsetFromPoint(e.Location);
             if (e.Button == MouseButtons.Left)
@@ -495,11 +502,8 @@ namespace Plutarque
             }
         }
 
+         
+        #endregion
 
-        private void mainView_MouseUp(object sender, MouseEventArgs e)
-        {
-
-        }
-        #endregion 
     }
 }

@@ -72,14 +72,12 @@ namespace Plutarque
             this.mainView.Name = "mainView";
             this.mainView.Size = new System.Drawing.Size(975, 598);
             this.mainView.TabIndex = 1;
-            this.mainView.FontChanged += new System.EventHandler(this.mainView_FontChanged);
-            this.mainView.Paint += new System.Windows.Forms.PaintEventHandler(this.mainView_Paint);
-            this.mainView.MouseClick += new System.Windows.Forms.MouseEventHandler(this.mainView_MouseClick);
-            this.mainView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mainView_MouseDown);
-            this.mainView.MouseLeave += new System.EventHandler(this.mainView_MouseLeave);
-            this.mainView.MouseMove += new System.Windows.Forms.MouseEventHandler(this.mainView_MouseMove);
-            this.mainView.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mainView_MouseUp);
-            this.mainView.Resize += new System.EventHandler(this.mainView_Resize);
+            this.mainView.FontChanged += new System.EventHandler(this.View_Main_FontChanged);
+            this.mainView.Paint += new System.Windows.Forms.PaintEventHandler(this.View_Main_Paint); 
+            this.mainView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.View_Main_MouseDown);
+            this.mainView.MouseLeave += new System.EventHandler(this.View_Main_MouseLeave);
+            this.mainView.MouseMove += new System.Windows.Forms.MouseEventHandler(this.View_Main_MouseMove); 
+            this.mainView.Resize += new System.EventHandler(this.View_Main_Resize);
             // 
             // DataView
             // 
@@ -88,10 +86,10 @@ namespace Plutarque
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "DataView";
             this.Size = new System.Drawing.Size(996, 598);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DataView_KeyDown);
-            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.DataView_KeyPress);
-            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.DataView_KeyUp);
-            this.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.DataView_PreviewKeyDown);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.View_Sub_KeyDown);
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.View_Sub_KeyPress);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.View_Sub_KeyUp);
+            this.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.View_Sub_PreviewKeyDown);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 

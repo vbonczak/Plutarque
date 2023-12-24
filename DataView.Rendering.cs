@@ -16,11 +16,16 @@ namespace Plutarque
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void mainView_Paint(object sender, PaintEventArgs e)
+        private void View_Main_Paint(object sender, PaintEventArgs e)
         {
             Rectangle r = mainView.ClientRectangle;
             Graphics g = e.Graphics;
-
+            if (Font.Height < 15)
+            {
+                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
+                g.TextRenderingHint = TextRenderingHint.SingleBitPerPixelGridFit;
+                g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
+            }
             //Détermination de la largeur de la colonne d'offset
             int stringW = Max(4, (int)Ceiling(Log(dataStream.Length, offsetBase)));
             Size offsetZoneSz = g.MeasureString(new string('0', stringW), Font).ToSize();
@@ -46,10 +51,14 @@ namespace Plutarque
             //Nous assurons la position actuelle dans le flux
             dataStream.Seek(firstOffset = firstLine * lineLength, SeekOrigin.Begin);
 
-
+            //Fond général
             g.FillRectangle(backBr, r);
+
+            //Colonne des décalages
             g.FillRectangle(offsetBackBr, new Rectangle(r.Location,
                 new Size(offsetZoneSz.Width, r.Height)));
+
+            //Marge du milieu
             g.FillRectangle(middleMarginBr, new Rectangle(new Point(leftCurX + textZoneWidth, r.Y),
                 new Size(middleMarginWidth, r.Height)));
 
@@ -265,7 +274,7 @@ namespace Plutarque
                     g.FillRectangle(backBrSel, new Rectangle(rect.X + gOffset, rect.Y, eOffset - gOffset, lineHeight));
                     for (long i = 0; i < len; i++)
                     {
-                        DrawBlockValue(g, rect, line[i], bs, IsIndexSelected(lineOffset + i) ? foreBrSel : foreBr);
+                        DrawBlockValue(g, rect, line[i], bs, IsOffsetSelected(lineOffset + i) ? foreBrSel : foreBr);
                         rect.X += rect.Width;
                     }
                     break;
@@ -323,7 +332,9 @@ namespace Plutarque
         /// <summary>
         /// Rectangle vide si le décalage spécifié n'est pas visible à l'écran.
         /// </summary>
-        /// <returns></returns>
+        /// <param name="offset"></param>
+        /// <param name="left">Le rectangle dans la zone de gauche</param>
+        /// <param name="right">Le rectangle dans la zone de droite</param>
         public virtual void GetRectanglesFromOffset(long offset, out Rectangle left, out Rectangle right)
         {
             Rectangle ret1 = Rectangle.Empty;

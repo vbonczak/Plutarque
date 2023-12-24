@@ -14,19 +14,45 @@ namespace Plutarque
 {
     public partial class DataView
     {
+        /// <summary>
+        /// première ligne affichée, décidée par défaut par la barre de défilement.
+        /// </summary>
+        protected long firstLine;
+        /// <summary>
+        /// longueur de la ligne en octets, valide après le dernier OnPaint
+        /// </summary>
+        protected int lineLength;
 
-        protected long firstLine; //première ligne affichée
-        protected int lineLength; //longueur de la ligne en octets
-        protected int lineHeight; // hauteur de la ligne graphique en pixels
-        protected int blockW; //largeur d'un bloc
+        /// <summary>
+        /// hauteur de la ligne graphique en pixels
+        /// </summary>
+        protected int lineHeight;
 
-        protected Rectangle leftZone = Rectangle.Empty;//rectangles calculés au rendu
+        /// <summary>
+        /// largeur d'un bloc
+        /// </summary>
+        protected int blockW;
+
+        /// <summary>
+        /// rectangles calculés au rendu
+        /// </summary>
+        protected Rectangle leftZone = Rectangle.Empty;//
+        /// <summary>
+        /// rectangles calculés au rendu
+        /// </summary>
         protected Rectangle rightZone = Rectangle.Empty;
+        /// <summary>
+        /// rectangles calculés au rendu
+        /// </summary>
         protected Rectangle offsetZone = Rectangle.Empty;
+
 
         protected float zoom = 1f;
 
-        protected int innerMargin = 5; //Marge (totale) dans un bloc en pixels
+        /// <summary>
+        /// Marge (totale) dans un bloc en pixels. Constant sémantiquement.
+        /// </summary>
+        protected int innerMargin = 5;
 
         /// <summary>
         /// Dernière position affichée dans le contrôle (incluse)
@@ -34,7 +60,7 @@ namespace Plutarque
         protected long lastOffset;
 
         /// <summary>
-        /// première position affichée (incluse)
+        /// première position affichée (incluse). Calculée comme firstLine * lineLength avant le rendu.
         /// </summary>
         protected long firstOffset;
 
@@ -44,6 +70,9 @@ namespace Plutarque
         /// </summary>
         private int scrollLines = 3;
 
+        /// <summary>
+        /// Début de sélection, dans tous les cas là où on entre un nombre en cours (encadré rouge)
+        /// </summary>
         private long selectionStart;
 
         /// <summary>
@@ -67,7 +96,7 @@ namespace Plutarque
         private int offsetBase;
 
         /// <summary>
-        /// décalage en cours de saisie
+        /// décalage en cours de saisie, lorsque l'on entre un décalage dans la zone de gauche
         /// </summary>
         protected long curInputingOffset = 0; 
 

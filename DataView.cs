@@ -29,7 +29,7 @@ namespace Plutarque
         public DataView()
         {
             InitializeComponent();
-            MouseWheel += DataView_MouseWheel;
+            MouseWheel += View_Sub_MouseWheel;
             dataStream = new MemoryStream();
             baseLeft = 16;
             BaseRight = -1;
@@ -243,15 +243,23 @@ namespace Plutarque
             return (int)Ceiling((double)((lastOffset - firstOffset) / lineLength));//arrondi en haut
         }
 
-        private void mainView_Resize(object sender, EventArgs e)
+        /// <summary>
+        /// Permet de garder le même décalage avant et après le re-rendu.
+        /// </summary>
+        protected void RefreshConsistently()
         {
+            if (IsOffsetVisible(curInputingOffset))
+            {
+                //visible 
+            }
             Refresh();
         }
 
-        private void mainView_MouseClick(object sender, MouseEventArgs e)
+        private void View_Main_Resize(object sender, EventArgs e)
         {
-
-        }
+            //garder le même offset qu'avant (ou le même point sélectionné, même principe que dans Wheel pour le zoom)
+            RefreshConsistently();
+        } 
 
         /// <summary>
         /// Retourne la position dans le flux à partir du point à l'écran spécifié.
@@ -669,7 +677,7 @@ namespace Plutarque
         /// <returns></returns>
         public static int MakeSpecialBase(SpecialBases b) => (int)b;
 
-        private void mainView_FontChanged(object sender, EventArgs e)
+        private void View_Main_FontChanged(object sender, EventArgs e)
         {
             LoadControlCharsFont();
         }
