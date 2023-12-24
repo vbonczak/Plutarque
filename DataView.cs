@@ -65,6 +65,9 @@ namespace Plutarque
             reperes = new List<Repere>();
             renderedReperesG = new Dictionary<Rectangle, int>();
             renderedReperesD = new Dictionary<Rectangle, int>();
+
+            //tampon de rendu
+            buffer = new byte[bufferSz];
         }
 
 

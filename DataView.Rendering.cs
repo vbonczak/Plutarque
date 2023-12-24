@@ -11,6 +11,8 @@ namespace Plutarque
 {
     public partial class DataView
     {
+        private const int bufferSz = 50 * 1024;
+        private byte[] buffer;
         /// <summary>
         /// Rendu
         /// </summary>
@@ -67,7 +69,9 @@ namespace Plutarque
             rightZone = new Rectangle(rightCurX, r.Y, textZoneWidth, r.Height);
             offsetZone = new Rectangle(offsetCurX, r.Y, offsetZoneSz.Width, r.Height);
 
-            byte[] buf = new byte[lineLength];
+            //todo gros tampon puis parcours (besoin de calculer le total d'abord. Mettre le tampon dans la classe générale)
+
+            //byte[] buf = new byte[lineLength];
             Rectangle blockRectL = new Rectangle(leftCurX, r.Y, blockW, offsetZoneSz.Height);
             Rectangle blockRectR = new Rectangle(rightCurX, r.Y, blockW, offsetZoneSz.Height);
             long p;//Position actuelle
@@ -75,18 +79,50 @@ namespace Plutarque
 
             GetSelectionRange(out long sBegin, out long sEnd);
 
-            while (blockRectL.Y + lineHeight <= r.Bottom && dataStream.Position < dataStream.Length)
+
+            unsafe
             {
-                p = dataStream.Position;
 
-                DrawOffset(g, stringW, offsetCurX, blockRectL, p, sBegin);//offset
+                //Longueur du bloc lu en cours
+                int L = Min(bufferSz - bufferSz % lineLength, bufferSz);//avoir un nombre entier
+                                                                        //de lignes *au max* (il se peut qu'on lise moins)
 
-                int l = dataStream.Read(buf, 0, lineLength);
-                DrawLine(g, BaseLeft, buf, l, blockRectL, p, textZoneWidth, sBegin, sEnd);//Partie gauche
-                DrawLine(g, BaseRight, buf, l, blockRectR, p, textZoneWidth, sBegin, sEnd);//Partie droite
-                blockRectL.Y += offsetZoneSz.Height;
-                blockRectR.Y += offsetZoneSz.Height;
+                fixed (byte* pBuf = buffer)
+                {
+
+                    int i = 0;
+                    byte* line = pBuf;
+                    //parcours successif des tampons pour parcourir l'ensemble du fichier dont nous avons besoin.
+                    while (dataStream.Position < dataStream.Length)
+                    {
+                        L = dataStream.Read(buffer, 0, bufferSz);
+                        p = dataStream.Position;
+                        while (blockRectL.Y + lineHeight <= r.Bottom && i < L)
+                        {
+
+                            DrawOffset(g, stringW, offsetCurX, blockRectL, p, sBegin);//offset
+
+                            int l = Min(lineLength, L - i);
+
+                            DrawLine(g, BaseLeft, pBuf, l, blockRectL, p, textZoneWidth, sBegin, sEnd);//Partie gauche
+                            DrawLine(g, BaseRight, pBuf, l, blockRectR, p, textZoneWidth, sBegin, sEnd);//Partie droite
+                            blockRectL.Y += offsetZoneSz.Height;
+                            blockRectR.Y += offsetZoneSz.Height;
+
+                            line += l;
+                            i += l;
+                            p += l;
+                        }
+                    } //dataStream.Position < dataStream.Length
+
+
+                }
+
+
+
+
             }
+
 
             lastOffset = dataStream.Position - 1;
 
@@ -130,14 +166,14 @@ namespace Plutarque
         }
 
         /// <summary>
-        /// 
+        /// Rendu du "numéro de ligne" (décalage)
         /// </summary>
         /// <param name="g"></param>
         /// <param name="stringW"></param>
         /// <param name="offsetCurX"></param>
         /// <param name="blockRectL"></param>
-        /// <param name="p"></param>
-        /// <param name="sBegin"></param>
+        /// <param name="p">Décalage de la ligne en cours</param>
+        /// <param name="sBegin">Début de la sélection obtenu via <see cref="GetSelectionRange"/>.</param>
         private void DrawOffset(Graphics g, int stringW, int offsetCurX, Rectangle blockRectL, long p, long sBegin)
         {
             long number = p;
@@ -237,7 +273,7 @@ namespace Plutarque
         /// <param name="rect"></param>
         /// <param name="lineOffset">Position de départ</param>
         /// <param name="maxWidth">Limite graphique en largeur</param>
-        protected void DrawLine(Graphics g, int bs, byte[] line, int len, Rectangle rect, long lineOffset, int maxWidth, long sBegin, long sEnd)
+        protected unsafe void DrawLine(Graphics g, int bs, byte* line, int len, Rectangle rect, long lineOffset, int maxWidth, long sBegin, long sEnd)
         {
             int status;//ligne entière ou pas
 
