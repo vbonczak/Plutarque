@@ -6,6 +6,7 @@ using System.IO;
 using static System.Math;
 using System.Windows.Forms;
 using System.Drawing.Text;
+using System.Diagnostics;
 
 namespace Plutarque
 {
@@ -13,6 +14,9 @@ namespace Plutarque
     {
         private const int bufferSz = 50 * 1024;
         private byte[] buffer;
+
+        private const float MaxZoomFactor = 0.4f;
+
         /// <summary>
         /// Rendu
         /// </summary>
@@ -20,6 +24,7 @@ namespace Plutarque
         /// <param name="e"></param>
         private void View_Main_Paint(object sender, PaintEventArgs e)
         {
+           
             Rectangle r = mainView.ClientRectangle;
             Graphics g = e.Graphics;
             if (Font.Height < 15)
@@ -104,8 +109,8 @@ namespace Plutarque
 
                             int l = Min(lineLength, L - i);
 
-                            DrawLine(g, BaseLeft, pBuf, l, blockRectL, p, textZoneWidth, sBegin, sEnd);//Partie gauche
-                            DrawLine(g, BaseRight, pBuf, l, blockRectR, p, textZoneWidth, sBegin, sEnd);//Partie droite
+                            DrawLine(g, BaseLeft, line, l, blockRectL, p, textZoneWidth, sBegin, sEnd);//Partie gauche
+                            DrawLine(g, BaseRight, line, l, blockRectR, p, textZoneWidth, sBegin, sEnd);//Partie droite
                             blockRectL.Y += offsetZoneSz.Height;
                             blockRectR.Y += offsetZoneSz.Height;
 
@@ -163,6 +168,7 @@ namespace Plutarque
              g.DrawString(offsetMouse.ToString(), Font, Brushes.Lime, 15, 32);
              g.DrawString(lastOffset.ToString(), Font, Brushes.Orange, 15, 48);//*/
             RenderReperes(g);
+
         }
 
         /// <summary>

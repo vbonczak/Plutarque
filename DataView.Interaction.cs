@@ -435,7 +435,7 @@ namespace Plutarque
                 if (e.Delta < 0)
                 {
                     //arrière
-                    zoom = Max(0.5f, zoom - 0.1f);
+                    zoom = Max(MaxZoomFactor, zoom - 0.1f);
                 }
                 else if (e.Delta > 0)
                 {
