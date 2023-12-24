@@ -95,8 +95,8 @@ namespace Plutarque
                     //parcours successif des tampons pour parcourir l'ensemble du fichier dont nous avons besoin.
                     while (dataStream.Position < dataStream.Length)
                     {
-                        L = dataStream.Read(buffer, 0, bufferSz);
                         p = dataStream.Position;
+                        L = dataStream.Read(buffer, 0, bufferSz);
                         while (blockRectL.Y + lineHeight <= r.Bottom && i < L)
                         {
 
