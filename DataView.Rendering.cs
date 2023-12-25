@@ -24,7 +24,7 @@ namespace Plutarque
         /// <param name="e"></param>
         private void View_Main_Paint(object sender, PaintEventArgs e)
         {
-           
+
             Rectangle r = mainView.ClientRectangle;
             Graphics g = e.Graphics;
             if (Font.Height < 15)
@@ -79,29 +79,30 @@ namespace Plutarque
             //byte[] buf = new byte[lineLength];
             Rectangle blockRectL = new Rectangle(leftCurX, r.Y, blockW, offsetZoneSz.Height);
             Rectangle blockRectR = new Rectangle(rightCurX, r.Y, blockW, offsetZoneSz.Height);
-            long p;//Position actuelle
-                   //                  v vvvvvvvvvv  éviter d'avoir une ligne partiellement visible 
+            long p = 0;//Position actuelle de début de lecture (emplacement dans le flux de buffer[0])
+
 
             GetSelectionRange(out long sBegin, out long sEnd);
 
 
+            //Longueur du bloc lu en cours
+            int L = Min(bufferSz - bufferSz % lineLength, bufferSz);//avoir un nombre entier
+                                                                    //de lignes *au max* (il se peut qu'on lise moins)
+            int i = 0;
+
             unsafe
             {
-
-                //Longueur du bloc lu en cours
-                int L = Min(bufferSz - bufferSz % lineLength, bufferSz);//avoir un nombre entier
-                                                                        //de lignes *au max* (il se peut qu'on lise moins)
-
                 fixed (byte* pBuf = buffer)
                 {
 
-                    int i = 0;
                     byte* line = pBuf;
                     //parcours successif des tampons pour parcourir l'ensemble du fichier dont nous avons besoin.
                     while (dataStream.Position < dataStream.Length)
                     {
+                        //p: position du début du bloc lu dans buffer (p + L est la dernière position)
                         p = dataStream.Position;
                         L = dataStream.Read(buffer, 0, bufferSz);
+                        //                  v vvvvvvvvvv  éviter d'avoir une ligne partiellement visible 
                         while (blockRectL.Y + lineHeight <= r.Bottom && i < L)
                         {
 
@@ -129,7 +130,8 @@ namespace Plutarque
             }
 
 
-            lastOffset = dataStream.Position - 1;
+            lastOffset = p + i - 1; //au dernier tour, i est incrémenté de la longueur de la ligne ou du reste des octets. Il vaut donc
+                                    //la position juste après le dernier octet dessiné dans le tableau tampon.
 
             lineHeight = offsetZoneSz.Height;
             SetScrollBarLength(firstLine == 0 && dataStream.Position == dataStream.Length ? 0 : GetScrollTicks());
