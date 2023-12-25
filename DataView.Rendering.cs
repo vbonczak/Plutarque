@@ -134,7 +134,13 @@ namespace Plutarque
                                     //la position juste après le dernier octet dessiné dans le tableau tampon.
 
             lineHeight = offsetZoneSz.Height;
-            SetScrollBarLength(firstLine == 0 && dataStream.Position == dataStream.Length ? 0 : GetScrollTicks());
+
+            SetScrollBarLength(
+                firstLine == 0
+                &&
+                p + i == dataStream.Length ?
+                                                            0
+                        :       /* pas à la fin */          GetScrollTicks());
 
             //g.DrawString(offsetMouse.ToString(), Font, foreBr, PointToClient(MousePosition));
             //g.DrawString(scrollBar.Value.ToString() + " de " + scrollBar.Maximum.ToString(), Font, backBrSel, r.Location + new Size(5, 5));
