@@ -666,7 +666,7 @@ namespace Plutarque
 
         private void àProposDePlutarqueToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Plutarque, Vincent Bonczak 2020-2022.");
+            MessageBox.Show("Plutarque, Vincent Bonczak 2020-2024.");
         }
     }
 }

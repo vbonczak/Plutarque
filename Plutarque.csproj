@@ -47,6 +47,9 @@
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="InteractiveContainer">
+      <HintPath>..\Commun\InteractiveContainer\InteractiveContainer\bin\Release\InteractiveContainer.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -60,6 +63,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataTextBox.cs" />
     <Compile Include="DataView.Events.cs">
       <SubType>UserControl</SubType>
     </Compile>

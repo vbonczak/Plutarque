@@ -67,10 +67,11 @@ namespace Plutarque
         /// de l'octet spécifié avec la base indiquée.
         /// </summary>
         /// <param name="n">Octet à convertir</param>
-        /// <param name="b">Base de numération</param>
+        /// <param name="b">Base de numération, -1 pour ASCII</param>
         /// <returns></returns>
         public static string ToBaseString(byte n, int b)
         {
+
             if (b > 0)
             {
                 int cur = Math.Abs(n);
@@ -97,7 +98,7 @@ namespace Plutarque
         /// de l'entier spécifié avec la base indiquée.
         /// </summary>
         /// <param name="n">Octet à convertir</param>
-        /// <param name="b">Base de numération</param>
+        /// <param name="b">Base de numération, doit être au moins 1.</param>
         /// <returns></returns>
         public static string ToBaseString(long n, int b)
         {

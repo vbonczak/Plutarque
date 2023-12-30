@@ -58,6 +58,7 @@ namespace Plutarque
             this.titreToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.txtRepere = new System.Windows.Forms.ToolStripTextBox();
             this.oKRepereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.affichageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.baseDeGaucheToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuBase = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -67,27 +68,38 @@ namespace Plutarque
             this.binaireToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.aSCIIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.baseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.baseDeDroiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.àProposDePlutarqueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.D = new Plutarque.DataView();
             this.contextGeneral = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.baseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.supprimerLeRepèreToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblPath = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblExplications = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblPosition = new System.Windows.Forms.ToolStripStatusLabel();
             this.colors = new System.Windows.Forms.ContextMenu();
+            this.splitControls = new System.Windows.Forms.SplitContainer();
+            this.splitDataNodes = new System.Windows.Forms.SplitContainer();
+            this.interactiveContainer1 = new VControls.Interactive.InteractiveContainer();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.menuStrip1.SuspendLayout();
             this.contextMenuRepere.SuspendLayout();
             this.contextMenuBase.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.contextGeneral.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitControls)).BeginInit();
+            this.splitControls.Panel1.SuspendLayout();
+            this.splitControls.Panel2.SuspendLayout();
+            this.splitControls.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitDataNodes)).BeginInit();
+            this.splitDataNodes.Panel1.SuspendLayout();
+            this.splitDataNodes.Panel2.SuspendLayout();
+            this.splitDataNodes.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -237,7 +249,6 @@ namespace Plutarque
             // 
             // txtNInsert
             // 
-            this.txtNInsert.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.txtNInsert.Name = "txtNInsert";
             this.txtNInsert.Size = new System.Drawing.Size(100, 27);
             this.txtNInsert.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNInsert_KeyPress);
@@ -279,7 +290,7 @@ namespace Plutarque
             this.txtRepere,
             this.oKRepereToolStripMenuItem});
             this.contextMenuRepere.Name = "contextMenuRepere";
-            this.contextMenuRepere.OwnerItem = this.toolStripMenuItem2;
+            this.contextMenuRepere.OwnerItem = this.insérerUnRepèreToolStripMenuItem;
             this.contextMenuRepere.Size = new System.Drawing.Size(161, 105);
             // 
             // couleurToolStripMenuItem
@@ -306,7 +317,6 @@ namespace Plutarque
             // 
             // txtRepere
             // 
-            this.txtRepere.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.txtRepere.Name = "txtRepere";
             this.txtRepere.Size = new System.Drawing.Size(100, 27);
             this.txtRepere.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtRepere_KeyPress);
@@ -318,6 +328,13 @@ namespace Plutarque
             this.oKRepereToolStripMenuItem.Size = new System.Drawing.Size(160, 24);
             this.oKRepereToolStripMenuItem.Text = "OK";
             this.oKRepereToolStripMenuItem.Click += new System.EventHandler(this.oKRepereToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.DropDown = this.contextMenuRepere;
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(210, 24);
+            this.toolStripMenuItem2.Text = "Insérer un repère";
             // 
             // affichageToolStripMenuItem
             // 
@@ -349,7 +366,7 @@ namespace Plutarque
             this.toolStripSeparator6,
             this.aSCIIToolStripMenuItem});
             this.contextMenuBase.Name = "contextMenuBase";
-            this.contextMenuBase.OwnerItem = this.baseToolStripMenuItem;
+            this.contextMenuBase.OwnerItem = this.baseDeDroiteToolStripMenuItem;
             this.contextMenuBase.Size = new System.Drawing.Size(166, 130);
             // 
             // hexadécimalToolStripMenuItem
@@ -392,6 +409,13 @@ namespace Plutarque
             this.aSCIIToolStripMenuItem.Text = "ASCII";
             this.aSCIIToolStripMenuItem.Click += new System.EventHandler(this.aSCIIToolStripMenuItem_Click);
             // 
+            // baseToolStripMenuItem
+            // 
+            this.baseToolStripMenuItem.DropDown = this.contextMenuBase;
+            this.baseToolStripMenuItem.Name = "baseToolStripMenuItem";
+            this.baseToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
+            this.baseToolStripMenuItem.Text = "Base";
+            // 
             // baseDeDroiteToolStripMenuItem
             // 
             this.baseDeDroiteToolStripMenuItem.DropDown = this.contextMenuBase;
@@ -420,8 +444,8 @@ namespace Plutarque
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Controls.Add(this.menuStrip1, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.D, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.statusStrip1, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.splitControls, 0, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -429,7 +453,8 @@ namespace Plutarque
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1057, 707);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1217, 638);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
             // D
@@ -439,8 +464,7 @@ namespace Plutarque
             this.D.Dock = System.Windows.Forms.DockStyle.Fill;
             this.D.Font = new System.Drawing.Font("Consolas", 10.2F);
             this.D.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.D.Location = new System.Drawing.Point(3, 34);
-            this.D.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.D.Location = new System.Drawing.Point(0, 0);
             this.D.MaxSupportedArrayLength = ((long)(214748364));
             this.D.MiddleMarginColor = System.Drawing.Color.Gray;
             this.D.Name = "D";
@@ -450,7 +474,7 @@ namespace Plutarque
             this.D.ReturnMode = Plutarque.DataView.ReturnModeConvention.crlf;
             this.D.SelectionLength = 0;
             this.D.SelectionStart = ((long)(0));
-            this.D.Size = new System.Drawing.Size(1051, 639);
+            this.D.Size = new System.Drawing.Size(981, 350);
             this.D.TabIndex = 1;
             this.D.SelectionChanged += new Plutarque.DataView.EventHandler(this.D_SelectionChanged);
             this.D.DataChanged += new Plutarque.DataView.EventHandler(this.D_DataChanged);
@@ -467,24 +491,10 @@ namespace Plutarque
             this.contextGeneral.Size = new System.Drawing.Size(211, 82);
             this.contextGeneral.Opening += new System.ComponentModel.CancelEventHandler(this.contextGeneral_Opening);
             // 
-            // baseToolStripMenuItem
-            // 
-            this.baseToolStripMenuItem.DropDown = this.contextMenuBase;
-            this.baseToolStripMenuItem.Name = "baseToolStripMenuItem";
-            this.baseToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
-            this.baseToolStripMenuItem.Text = "Base";
-            // 
             // toolStripSeparator8
             // 
             this.toolStripSeparator8.Name = "toolStripSeparator8";
             this.toolStripSeparator8.Size = new System.Drawing.Size(207, 6);
-            // 
-            // toolStripMenuItem2
-            // 
-            this.toolStripMenuItem2.DropDown = this.contextMenuRepere;
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(210, 24);
-            this.toolStripMenuItem2.Text = "Insérer un repère";
             // 
             // supprimerLeRepèreToolStripMenuItem
             // 
@@ -500,9 +510,9 @@ namespace Plutarque
             this.lblPath,
             this.lblExplications,
             this.lblPosition});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 677);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 608);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1057, 30);
+            this.statusStrip1.Size = new System.Drawing.Size(1217, 30);
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -515,7 +525,7 @@ namespace Plutarque
             // lblExplications
             // 
             this.lblExplications.Name = "lblExplications";
-            this.lblExplications.Size = new System.Drawing.Size(1008, 24);
+            this.lblExplications.Size = new System.Drawing.Size(1168, 24);
             this.lblExplications.Spring = true;
             // 
             // lblPosition
@@ -525,12 +535,70 @@ namespace Plutarque
             this.lblPosition.Size = new System.Drawing.Size(21, 24);
             this.lblPosition.Text = "0";
             // 
+            // splitControls
+            // 
+            this.splitControls.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitControls.Location = new System.Drawing.Point(0, 30);
+            this.splitControls.Margin = new System.Windows.Forms.Padding(0);
+            this.splitControls.Name = "splitControls";
+            // 
+            // splitControls.Panel1
+            // 
+            this.splitControls.Panel1.Controls.Add(this.splitDataNodes);
+            // 
+            // splitControls.Panel2
+            // 
+            this.splitControls.Panel2.Controls.Add(this.flowLayoutPanel1);
+            this.splitControls.Size = new System.Drawing.Size(1217, 578);
+            this.splitControls.SplitterDistance = 981;
+            this.splitControls.TabIndex = 3;
+            // 
+            // splitDataNodes
+            // 
+            this.splitDataNodes.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitDataNodes.Location = new System.Drawing.Point(0, 0);
+            this.splitDataNodes.Name = "splitDataNodes";
+            this.splitDataNodes.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitDataNodes.Panel1
+            // 
+            this.splitDataNodes.Panel1.Controls.Add(this.D);
+            // 
+            // splitDataNodes.Panel2
+            // 
+            this.splitDataNodes.Panel2.Controls.Add(this.interactiveContainer1);
+            this.splitDataNodes.Size = new System.Drawing.Size(981, 578);
+            this.splitDataNodes.SplitterDistance = 350;
+            this.splitDataNodes.TabIndex = 0;
+            // 
+            // interactiveContainer1
+            // 
+            this.interactiveContainer1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(237)))), ((int)(((byte)(255)))));
+            this.interactiveContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.interactiveContainer1.Location = new System.Drawing.Point(0, 0);
+            this.interactiveContainer1.Name = "interactiveContainer1";
+            this.interactiveContainer1.Size = new System.Drawing.Size(981, 224);
+            this.interactiveContainer1.TabIndex = 0;
+            this.interactiveContainer1.Text = "interactiveContainer1";
+            this.interactiveContainer1.TransformOffsetX = 0;
+            this.interactiveContainer1.TransformOffsetY = 0;
+            this.interactiveContainer1.TransformScale = 1F;
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(232)))), ((int)(((byte)(255)))));
+            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(232, 578);
+            this.flowLayoutPanel1.TabIndex = 0;
+            // 
             // Main
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1057, 707);
+            this.ClientSize = new System.Drawing.Size(1217, 638);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MainMenuStrip = this.menuStrip1;
@@ -551,6 +619,14 @@ namespace Plutarque
             this.contextGeneral.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.splitControls.Panel1.ResumeLayout(false);
+            this.splitControls.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitControls)).EndInit();
+            this.splitControls.ResumeLayout(false);
+            this.splitDataNodes.Panel1.ResumeLayout(false);
+            this.splitDataNodes.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitDataNodes)).EndInit();
+            this.splitDataNodes.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -609,5 +685,9 @@ namespace Plutarque
         private System.Windows.Forms.ToolStripMenuItem supprimerLeRepèreToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem àProposDePlutarqueToolStripMenuItem;
+        private System.Windows.Forms.SplitContainer splitControls;
+        private System.Windows.Forms.SplitContainer splitDataNodes;
+        private VControls.Interactive.InteractiveContainer interactiveContainer1;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
     }
 }
