@@ -246,7 +246,7 @@ namespace Plutarque
         /// <returns></returns>
         private int GetVisibleNbOfLines()
         {
-            return (int)Ceiling((double)((lastOffset - firstOffset) / lineLength));//arrondi en haut
+            return (int)Floor((float)(leftZone.Height) / lineHeight);//arrondi en bas car la dernière ligne n'est pas forcément visible.
         }
 
         /// <summary>
@@ -354,7 +354,7 @@ namespace Plutarque
                     //visible, ok
                     return;
 
-                } 
+                }
             }
 
             offset = Min(dataStream.Length - 1, Max(0, offset));
