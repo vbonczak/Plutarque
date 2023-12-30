@@ -365,7 +365,7 @@ namespace Plutarque
             if (firstLine > formerLine)
             {
                 //défilement ancré en bas (il faut que firstLine' soit visible en bas, donc firstLine' < firstLine + GetVisibleNbOfLines() )
-                firstLine = Max(0, firstLine - GetVisibleNbOfLines());
+                firstLine = Max(0, firstLine - GetVisibleNbOfLines()+1);
             }
             //else
             //sinon par défaut sans correction, ancré en haut (naturel)

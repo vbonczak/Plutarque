@@ -79,7 +79,7 @@ namespace Plutarque
             //byte[] buf = new byte[lineLength];
             Rectangle blockRectL = new Rectangle(leftCurX, r.Y, blockW, offsetZoneSz.Height);
             Rectangle blockRectR = new Rectangle(rightCurX, r.Y, blockW, offsetZoneSz.Height);
-            long p = 0;//Position actuelle de début de lecture (emplacement dans le flux de buffer[0])
+            long p = 0;//Position actuelle dans le flux
 
 
             GetSelectionRange(out long sBegin, out long sEnd);
@@ -88,21 +88,32 @@ namespace Plutarque
             //Longueur du bloc lu en cours
             int L = Min(bufferSz - bufferSz % lineLength, bufferSz);//avoir un nombre entier
                                                                     //de lignes *au max* (il se peut qu'on lise moins)
-            int i = 0;
-
+                                                                    //Position en cours dans buffer
+            int i;
+           
             unsafe
             {
+
+
+
+
                 fixed (byte* pBuf = buffer)
                 {
 
-                    byte* line = pBuf;
                     //parcours successif des tampons pour parcourir l'ensemble du fichier dont nous avons besoin.
                     while (blockRectL.Y <= r.Bottom && dataStream.Position < dataStream.Length)
                     {
-                        //p: position du début du bloc lu dans buffer (p + L est la dernière position)
+                        //p: position absolue en cours
                         p = dataStream.Position;
-                        L = dataStream.Read(buffer, 0, bufferSz);
-                        //                  ligne partielle possible (condition répétée dans la boucle extérieure)
+                        L = dataStream.Read(buffer, 0, L); //L est un nombre entier de lignes qui rentre dans le tampon.
+                                                           //On met à jour L avec possiblement moins de données (si  il n'y en a pas assez à lire)
+
+                        i = 0;//i est rembobiné, on recommence un nouveau buffer
+                        byte* line = pBuf; // le pointeur mobile est rembobiné aussi
+
+                        //ligne partielle possible (condition répétée dans la boucle extérieure)
+                        //Notez que blockRectL.Y <= r.Bottom && dataStream.Position < dataStream.Length  ==> blockRectL.Y <= r.Bottom && i < L
+                        //une entrée en haut implique une entrée dans le while suivant
                         while (blockRectL.Y <= r.Bottom && i < L)
                         {
 
@@ -117,28 +128,28 @@ namespace Plutarque
 
                             line += l;
                             i += l;
-                            p += l;
+                            p += l;//s'épargner deux addition en haut, on synchronise les décalages de i et p.
                         }
                     } //dataStream.Position < dataStream.Length
 
-
+                    //Post condition: p vaut un nombre entier de lignes englobant la position finale (si on n'a pas dessiné une ligne entière)
+                    //p est donc une surapprox de lastOffset
                 }
 
 
 
 
             }
+            //p est le dernier *début* de ligne suivante. Donc la dernière pos est au plus p - 1, ou la fin du flux si inférieure.
 
-
-            lastOffset = Min(dataStream.Length - 1, p + lineLength - 1); //au dernier tour, i est incrémenté de la longueur de la ligne ou du reste des octets. Il vaut donc
-                                                                         //la position juste après le dernier octet dessiné dans le tableau tampon.
+            lastOffset = Min(dataStream.Length - 1, p - 1);
 
             lineHeight = offsetZoneSz.Height;
 
             SetScrollBarLength(
                 firstLine == 0
                 &&
-                p + i == dataStream.Length ?
+                lastOffset == dataStream.Length ?
                                                             0
                         :       /* pas à la fin */          GetScrollTicks());
 
