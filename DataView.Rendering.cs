@@ -90,7 +90,45 @@ namespace Plutarque
                                                                     //de lignes *au max* (il se peut qu'on lise moins)
             int i = 0;
 
-            RenderStream(r, g, stringW, ref offsetZoneSz, offsetCurX, textZoneWidth, blockRectL, blockRectR, ref p, sBegin, sEnd, ref L, ref i);
+            unsafe
+            {
+                fixed (byte* pBuf = buffer)
+                {
+
+                    byte* line = pBuf;
+                    //parcours successif des tampons pour parcourir l'ensemble du fichier dont nous avons besoin.
+                    while (blockRectL.Y <= r.Bottom && dataStream.Position < dataStream.Length)
+                    {
+                        //p: position du début du bloc lu dans buffer (p + L est la dernière position)
+                        p = dataStream.Position;
+                        L = dataStream.Read(buffer, 0, bufferSz);
+                        //                  v vvvvvvvvvv  éviter d'avoir une ligne partiellement visible (condition répétée dans la boucle extérieure)
+                        while (blockRectL.Y <= r.Bottom && i < L)
+                        {
+
+                            DrawOffset(g, stringW, offsetCurX, blockRectL, p, sBegin);//offset
+
+                            int l = Min(lineLength, L - i);
+
+                            DrawLine(g, BaseLeft, line, l, blockRectL, p, textZoneWidth, sBegin, sEnd);//Partie gauche
+                            DrawLine(g, BaseRight, line, l, blockRectR, p, textZoneWidth, sBegin, sEnd);//Partie droite
+                            blockRectL.Y += offsetZoneSz.Height;
+                            blockRectR.Y += offsetZoneSz.Height;
+
+                            line += l;
+                            i += l;
+                            p += l;
+                        }
+                    } //dataStream.Position < dataStream.Length
+
+
+                }
+
+
+
+
+            }
+
 
             lastOffset = p + i - 1; //au dernier tour, i est incrémenté de la longueur de la ligne ou du reste des octets. Il vaut donc
                                     //la position juste après le dernier octet dessiné dans le tableau tampon.
@@ -139,60 +177,6 @@ namespace Plutarque
              g.DrawString(lastOffset.ToString(), Font, Brushes.Orange, 15, 48);//*/
             RenderReperes(g);
 
-        }
-
-        private void RenderStream(Rectangle r,
-                                  Graphics g,
-                                  int stringW,
-                                  ref Size offsetZoneSz,
-                                  int offsetCurX,
-                                  int textZoneWidth,
-                                  Rectangle blockRectL,
-                                  Rectangle blockRectR,
-                                  ref long p,
-                                  long sBegin,
-                                  long sEnd,
-                                  ref int L,
-                                  ref int i)
-        {
-            unsafe
-            {
-                fixed (byte* pBuf = buffer)
-                {
-
-                    byte* line = pBuf;
-                    //parcours successif des tampons pour parcourir l'ensemble du fichier dont nous avons besoin.
-                    while (dataStream.Position < dataStream.Length)
-                    {
-                        //p: position du début du bloc lu dans buffer (p + L est la dernière position)
-                        p = dataStream.Position;
-                        L = dataStream.Read(buffer, 0, bufferSz);
-                        //                  v vvvvvvvvvv  éviter d'avoir une ligne partiellement visible 
-                        while (blockRectL.Y + lineHeight <= r.Bottom && i < L)
-                        {
-
-                            DrawOffset(g, stringW, offsetCurX, blockRectL, p, sBegin);//offset
-
-                            int l = Min(lineLength, L - i);
-
-                            DrawLine(g, BaseLeft, line, l, blockRectL, p, textZoneWidth, sBegin, sEnd);//Partie gauche
-                            DrawLine(g, BaseRight, line, l, blockRectR, p, textZoneWidth, sBegin, sEnd);//Partie droite
-                            blockRectL.Y += offsetZoneSz.Height;
-                            blockRectR.Y += offsetZoneSz.Height;
-
-                            line += l;
-                            i += l;
-                            p += l;
-                        }
-                    } //dataStream.Position < dataStream.Length
-
-
-                }
-
-
-
-
-            }
         }
 
         /// <summary>
@@ -409,7 +393,7 @@ namespace Plutarque
             if (IsOffsetVisible(offset)
                 || (offset >= dataStream.Length && IsOffsetVisible(dataStream.Length - 1)))
             {
-                int y = leftZone.Y + (int)(offset / lineLength - firstLine) * lineHeight;
+                int y = GetYFromOffset(offset);
                 int x = (int)(offset % lineLength) * blockW;
                 ret1 = ret2 = new Rectangle(x, y, blockW, lineHeight);
                 ret2.X += rightZone.X;
@@ -417,6 +401,11 @@ namespace Plutarque
             }
 
             left = ret1; right = ret2;
+        }
+
+        protected virtual int GetYFromOffset(long offset)
+        {
+            return leftZone.Y + (int)(offset / lineLength - firstLine) * lineHeight;
         }
 
         #region Repères de texte

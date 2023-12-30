@@ -20,6 +20,9 @@ namespace Plutarque
     /// Nodes!
     /// 
     /// ColorMap, avec max value
+    /// 
+    /// À faire aussi: indiquer le début et fin de sélection en couleur quand on sélectionne (quand on relâche on n'affiche 
+    /// plus rien de spécial)
     /// </summary>
     public partial class DataView : UserControl
     {
@@ -275,7 +278,7 @@ namespace Plutarque
         {
             //garder le même offset qu'avant (ou le même point sélectionné, même principe que dans Wheel pour le zoom)
             RefreshConsistently();
-        } 
+        }
 
         /// <summary>
         /// Retourne la position dans le flux à partir du point à l'écran spécifié.
@@ -344,7 +347,17 @@ namespace Plutarque
         /// <param name="offset"></param>
         public virtual void EnsureVisible(long offset)
         {
-            if (offset <= lastOffset && offset >= firstOffset) return;
+            if (offset <= lastOffset && offset >= firstOffset)
+            {
+                if (GetYFromOffset(offset) + lineHeight < leftZone.Bottom)
+                {
+                    //visible, ok
+                    //return;
+
+                }
+                return;
+            }
+
             offset = Min(dataStream.Length - 1, Max(0, offset));
             long formerLine = firstLine;
             firstLine = offset / lineLength; //ligne correspondant au nouveau décalage à rendre visible
@@ -356,9 +369,10 @@ namespace Plutarque
                 firstLine = Max(0, firstLine - GetVisibleNbOfLines());
             }
             //else
-                //sinon par défaut sans correction, ancré en haut (naturel)
+            //sinon par défaut sans correction, ancré en haut (naturel)
 
             SetScrollFromLine(firstLine);
+
             Refresh();
         }
 
