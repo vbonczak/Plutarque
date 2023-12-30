@@ -88,12 +88,12 @@ namespace Plutarque
         /// <summary>
         /// peut être négative en cas de sélection 'à l'envers'
         /// </summary>
-        private int selectionLength;
+        protected int selectionLength;
 
         /// <summary>
         /// Base de numération des positions de décalage dans la marge de gauche.
         /// </summary>
-        private int offsetBase;
+        protected int offsetBase;
 
         /// <summary>
         /// décalage en cours de saisie, lorsque l'on entre un décalage dans la zone de gauche
@@ -103,41 +103,41 @@ namespace Plutarque
 
         private bool ro;//lecture seule ou non
 
-        private int middleMarginWidth;//taille de la marge au milieu
+        protected int middleMarginWidth;//taille de la marge au milieu
 
         //bases de numération de chaque côté
-        private int baseRight;
-        private int baseLeft;
+        protected int baseRight;
+        protected int baseLeft;
 
         //La police pour afficher différemment les caractères de contrôle (00 - 31)
         protected PrivateFontCollection privateFontCollection;
         private Font controlCharFont = null;
 
         //Remplissages rapides
-        private Brush backBr;
-        private Brush foreBr;
-        private Brush foreBrSel;
-        private Brush offsetForeBr;
-        private Brush offsetFocusForeBr;
-        private Brush offsetCurrentLineForeBr;
-        private Brush offsetBackBr;
-        private Brush middleMarginBr;
-        private Brush backBrSel;
+        protected Brush backBr;
+        protected Brush foreBr;
+        protected Brush foreBrSel;
+        protected Brush offsetForeBr;
+        protected Brush offsetFocusForeBr;
+        protected Brush offsetCurrentLineForeBr;
+        protected Brush offsetBackBr;
+        protected Brush middleMarginBr;
+        protected Brush backBrSel;
+         
+        protected Color selectionColor;
+        protected Color selectionBackColor;
+        protected Color offsetColor;
+        protected Color offsetCurrentLineColor;
+        protected Color offsetFocusColor;
+        protected Color offsetBackColor;
+        protected Color middleMarginColor;
 
-        private Color selectionColor;
-        private Color selectionBackColor;
-        private Color offsetColor;
-        private Color offsetCurrentLineColor;
-        private Color offsetFocusColor;
-        private Color offsetBackColor;
-        private Color middleMarginColor;
-
-        private Pen caretPen;
-        private Pen subCaretPen;
-        private Color caretColor;
-        private Color subCaretColor;
-
-        private long maxSupportedArrayLength;
+        protected Pen caretPen;
+        protected Pen subCaretPen;
+        protected Color caretColor;
+        protected Color subCaretColor;
+        
+        protected long maxSupportedArrayLength;
 
         /// <summary>
         /// Variable de stockage : mode de passage à la ligne.
@@ -153,7 +153,7 @@ namespace Plutarque
         /// <summary>
         /// Le flux en lecture actuel
         /// </summary>
-        private Stream dataStream;
+        protected Stream dataStream;
 
         /// <summary>
         /// Couleur de texte de la sélection.
@@ -420,7 +420,7 @@ namespace Plutarque
         /// La base de numération utilisée dans la partie droite.
         /// </summary>
         [DefaultValue(-1), Description("La base de numération utilisée dans la partie droite.")]
-        public int BaseRight
+        public virtual int BaseRight
         {
             get => baseRight; set
             {
@@ -432,7 +432,7 @@ namespace Plutarque
         /// La base de numération utilisée dans la partie gauche.
         /// </summary>
         [DefaultValue(16), Description("La base de numération utilisée dans la partie gauche.")]
-        public int BaseLeft
+        public virtual int BaseLeft
         {
             get => baseLeft; set
             {

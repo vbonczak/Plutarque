@@ -12,10 +12,10 @@ namespace Plutarque
 {
     public partial class DataView
     {
-        private const int bufferSz = 50 * 1024;
-        private byte[] buffer;
+        protected const int bufferSz = 50 * 1024;
+        protected byte[] buffer;
 
-        private const float MaxZoomFactor = 0.4f;
+        protected const float MaxZoomFactor = 0.4f;
 
         /// <summary>
         /// Rendu
@@ -27,6 +27,12 @@ namespace Plutarque
 
             Rectangle r = mainView.ClientRectangle;
             Graphics g = e.Graphics;
+
+            RenderView(g, r);
+        }
+
+        protected virtual void RenderView(Graphics g, Rectangle r)
+        {
             if (Font.Height < 15)
             {
                 g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
@@ -187,7 +193,6 @@ namespace Plutarque
              g.DrawString(offsetMouse.ToString(), Font, Brushes.Lime, 15, 32);
              g.DrawString(lastOffset.ToString(), Font, Brushes.Orange, 15, 48);//*/
             RenderReperes(g);
-
         }
 
         /// <summary>
@@ -199,7 +204,7 @@ namespace Plutarque
         /// <param name="blockRectL"></param>
         /// <param name="p">Décalage de la ligne en cours</param>
         /// <param name="sBegin">Début de la sélection obtenu via <see cref="GetSelectionRange"/>.</param>
-        private void DrawOffset(Graphics g, int stringW, int offsetCurX, Rectangle blockRectL, long p, long sBegin)
+        protected void DrawOffset(Graphics g, int stringW, int offsetCurX, Rectangle blockRectL, long p, long sBegin)
         {
             long number = p;
             Brush br = offsetForeBr;
@@ -286,7 +291,13 @@ namespace Plutarque
             }
         }
 
-
+        protected unsafe void DrawLine(Graphics g, int bs, byte[] line, int len, Rectangle rect, long lineOffset, int maxWidth, long sBegin, long sEnd)
+        {
+            fixed(byte* pLine = line)
+            {
+                DrawLine(g, bs, pLine, len, rect, lineOffset, maxWidth, sBegin, sEnd);
+            }
+        }
 
         /// <summary>
         /// Rendu d'une ligne entière de données dans le contrôle.

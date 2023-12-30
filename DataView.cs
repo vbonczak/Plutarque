@@ -669,7 +669,7 @@ namespace Plutarque
         /// <param name="n"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        private int GetNbofDigits(long n, int b)
+        protected int GetNbofDigits(long n, int b)
         {
             switch (b)
             {
