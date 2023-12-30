@@ -316,13 +316,13 @@ namespace Plutarque
 
 
         /// <summary>
-        /// Indique la visibilité de la position spécifiée (dans les bornes du flux).
+        /// Indique la visibilité complète de la position spécifiée (dans les bornes du flux).
         /// </summary>
         /// <param name="offset"></param>
         /// <returns></returns>
         protected bool IsOffsetVisible(long offset)
         {
-            return offset <= lastOffset && offset >= firstOffset;
+            return offset <= lastOffset && offset >= firstOffset && GetYFromOffset(offset) + lineHeight < leftZone.Bottom;
         }
 
 
@@ -352,10 +352,9 @@ namespace Plutarque
                 if (GetYFromOffset(offset) + lineHeight < leftZone.Bottom)
                 {
                     //visible, ok
-                    //return;
+                    return;
 
-                }
-                return;
+                } 
             }
 
             offset = Min(dataStream.Length - 1, Max(0, offset));

@@ -299,7 +299,7 @@ namespace Plutarque
                     //TODO caret dans le vide
                     OnSelectionChanged();
                 }
-                if (value < dataStream.Length && (value > lastOffset || value < firstOffset))//scroll dans tous les cas
+                if (value < dataStream.Length && !IsOffsetVisible(value))//scroll dans tous les cas
                     ScrollToCaret();
             }
         }

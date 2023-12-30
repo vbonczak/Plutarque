@@ -102,7 +102,7 @@ namespace Plutarque
                         //p: position du début du bloc lu dans buffer (p + L est la dernière position)
                         p = dataStream.Position;
                         L = dataStream.Read(buffer, 0, bufferSz);
-                        //                  v vvvvvvvvvv  éviter d'avoir une ligne partiellement visible (condition répétée dans la boucle extérieure)
+                        //                  ligne partielle possible (condition répétée dans la boucle extérieure)
                         while (blockRectL.Y <= r.Bottom && i < L)
                         {
 
@@ -130,8 +130,8 @@ namespace Plutarque
             }
 
 
-            lastOffset = p + i - 1; //au dernier tour, i est incrémenté de la longueur de la ligne ou du reste des octets. Il vaut donc
-                                    //la position juste après le dernier octet dessiné dans le tableau tampon.
+            lastOffset = Min(dataStream.Length - 1, p + lineLength - 1); //au dernier tour, i est incrémenté de la longueur de la ligne ou du reste des octets. Il vaut donc
+                                                                         //la position juste après le dernier octet dessiné dans le tableau tampon.
 
             lineHeight = offsetZoneSz.Height;
 
